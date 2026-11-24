@@ -1,0 +1,11 @@
+Miasma for Obsidian — third-party attribution
+
+Color palette
+The Miasma palette is by xero (https://github.com/xero) and is distributed
+with Omarchy (https://github.com/omacom/omarchy) under the MIT License.
+
+Original Omarchy Miasma theme by J. S. Brown / OldJobobo:
+https://github.com/OldJobobo/omarchy-miasma-theme
+
+Fonts
+No fonts are bundled. Fonts are referenced by local system font name only.

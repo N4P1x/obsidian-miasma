@@ -58,4 +58,4 @@ Locally available font stacks are used by default, so the theme works fully offl
 
 ## License
 
-MIT — see [LICENSE](./LICENSE). The upstream Miasma palette is also MIT licensed.
+MIT — see [LICENSE](./LICENSE). Palette attribution is in [NOTICE](./NOTICE); the upstream Miasma palette is also MIT licensed.
