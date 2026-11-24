@@ -1,0 +1,405 @@
+/*
+ * Miasma for Obsidian
+ * A dark, organic theme based on the Miasma palette by xero, as shipped with Omarchy.
+ * Palette: https://github.com/omacom/omarchy/tree/master/themes/miasma
+ */
+
+/* Palette and typography ------------------------------------------------- */
+
+body {
+  --miasma-bg: #222;
+  --miasma-bg-dark: #191919;
+  --miasma-bg-darker: #121212;
+  --miasma-bg-light: #2c2c2c;
+  --miasma-fg: #c2c2b0;
+  --miasma-fg-muted: #8a8a7e;
+  --miasma-fg-dark: #555;
+  --miasma-accent: #78824b;
+  --miasma-selection: #383838;
+  --miasma-muted: #666;
+  --miasma-red: #685742;
+  --miasma-orange: #8d6242;
+  --miasma-yellow: #b36d43;
+  --miasma-green: #5f875f;
+  --miasma-cyan: #c9a554;
+  --miasma-magenta: #b74;
+  --miasma-brown: #463121;
+
+  /* Swap these stacks in a snippet if you prefer a different reading font. */
+  --font-text-theme: -apple-system, blinkmacsystemfont, "Segoe UI", roboto, "Helvetica Neue", sans-serif;
+  --font-ui-theme: -apple-system, blinkmacsystemfont, "Segoe UI", roboto, "Helvetica Neue", sans-serif;
+  --font-monospace-theme: "JetBrains Mono", "Fira Code", "SFMono-Regular", consolas, "Liberation Mono", monospace;
+}
+
+/* Base colors ------------------------------------------------------------ */
+
+.theme-dark {
+  --accent-h: 71;
+  --accent-s: 27%;
+  --accent-l: 40%;
+  --color-base-00: var(--miasma-bg-darker);
+  --color-base-05: var(--miasma-bg-dark);
+  --color-base-10: var(--miasma-bg);
+  --color-base-20: var(--miasma-bg-light);
+  --color-base-25: #32322b;
+  --color-base-30: var(--miasma-selection);
+  --color-base-35: #45453d;
+  --color-base-40: var(--miasma-fg-dark);
+  --color-base-50: var(--miasma-muted);
+  --color-base-60: var(--miasma-fg-muted);
+  --color-base-70: var(--miasma-fg);
+  --color-base-100: var(--miasma-fg);
+  --color-red: var(--miasma-magenta);
+  --color-orange: var(--miasma-yellow);
+  --color-yellow: var(--miasma-cyan);
+  --color-green: var(--miasma-green);
+  --color-cyan: var(--miasma-cyan);
+  --color-blue: var(--miasma-accent);
+  --color-purple: var(--miasma-brown);
+  --color-pink: var(--miasma-orange);
+  --background-primary: var(--miasma-bg);
+  --background-primary-alt: var(--miasma-bg-dark);
+  --background-secondary: var(--miasma-bg-dark);
+  --background-secondary-alt: var(--miasma-bg-darker);
+  --background-modifier-border: #383833;
+  --background-modifier-border-hover: #4a4a41;
+  --background-modifier-border-focus: var(--miasma-accent);
+  --background-modifier-hover: color-mix(in srgb, var(--miasma-accent) 14%, transparent);
+  --background-modifier-active-hover: color-mix(in srgb, var(--miasma-accent) 24%, transparent);
+  --background-modifier-form-field: var(--miasma-bg-light);
+  --background-modifier-form-field-highlighted: #34342c;
+  --background-modifier-box-shadow: rgb(0 0 0 / 45%);
+  --background-modifier-cover: rgb(18 18 18 / 88%);
+  --background-modifier-message: var(--miasma-bg-light);
+  --background-modifier-success: color-mix(in srgb, var(--miasma-green) 28%, transparent);
+  --background-modifier-error: color-mix(in srgb, var(--miasma-magenta) 26%, transparent);
+  --background-modifier-error-hover: color-mix(in srgb, var(--miasma-magenta) 38%, transparent);
+
+  /* Text ---------------------------------------------------------------- */
+
+  --text-normal: var(--miasma-fg);
+  --text-muted: var(--miasma-fg-muted);
+  --text-faint: var(--miasma-muted);
+  --text-on-accent: var(--miasma-bg-darker);
+  --text-on-accent-inverted: var(--miasma-fg);
+  --text-accent: var(--miasma-cyan);
+  --text-accent-hover: color-mix(in srgb, var(--miasma-cyan) 78%, #fff);
+  --text-success: color-mix(in srgb, var(--miasma-green) 72%, var(--miasma-fg));
+  --text-warning: var(--miasma-cyan);
+  --text-error: var(--miasma-magenta);
+  --text-error-hover: color-mix(in srgb, var(--miasma-magenta) 82%, #fff);
+  --text-selection: var(--miasma-selection);
+  --text-highlight-bg: color-mix(in srgb, var(--miasma-cyan) 28%, transparent);
+  --text-highlight-bg-active: color-mix(in srgb, var(--miasma-yellow) 38%, transparent);
+  --caret-color: var(--miasma-cyan);
+
+  /* Interactive ---------------------------------------------------------- */
+
+  --interactive-normal: var(--miasma-bg-light);
+  --interactive-hover: var(--miasma-selection);
+  --interactive-accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --interactive-accent-hover: color-mix(in srgb, var(--interactive-accent) 82%, #fff);
+  --interactive-success: var(--miasma-green);
+
+  /* Radii and spacing ---------------------------------------------------- */
+
+  --radius-s: 4px;
+  --radius-m: 6px;
+  --radius-l: 10px;
+
+  /* Window chrome -------------------------------------------------------- */
+
+  --titlebar-background: var(--miasma-bg-darker);
+  --titlebar-background-focused: var(--miasma-bg-darker);
+  --titlebar-text-color: var(--miasma-fg-muted);
+  --titlebar-text-color-focused: var(--miasma-fg);
+  --ribbon-background: var(--miasma-bg-darker);
+  --status-bar-background: var(--miasma-bg-darker);
+  --status-bar-text-color: var(--miasma-fg-muted);
+  --side-bar-background: var(--miasma-bg-dark);
+  --side-bar-background-section: var(--miasma-bg-dark);
+  --side-bar-text-color: var(--miasma-fg);
+  --tab-container-background: var(--miasma-bg-darker);
+  --tab-background: var(--miasma-bg-dark);
+  --tab-background-active: var(--miasma-bg);
+  --tab-text-color: var(--miasma-fg-muted);
+  --tab-text-color-active: var(--miasma-fg);
+  --tab-divider-color: var(--miasma-bg-darker);
+  --popover-background: var(--miasma-bg-light);
+  --modal-background: var(--miasma-bg);
+  --modal-border-color: #383833;
+  --modal-shadow: 0 12px 32px rgb(0 0 0 / 55%);
+  --divider-color: #383833;
+  --divider-color-hover: var(--miasma-accent);
+  --scrollbar-bg: transparent;
+  --scrollbar-thumb-bg: rgb(194 194 176 / 14%);
+  --scrollbar-active-thumb-bg: rgb(194 194 176 / 28%);
+
+  /* Editor --------------------------------------------------------------- */
+
+  --inline-code-color: var(--miasma-cyan);
+  --code-background: var(--miasma-bg-dark);
+  --code-normal: var(--miasma-fg);
+  --code-comment: var(--miasma-muted);
+  --code-function: var(--miasma-accent);
+  --code-important: var(--miasma-cyan);
+  --code-keyword: var(--miasma-magenta);
+  --code-operator: var(--miasma-fg-muted);
+  --code-property: var(--miasma-cyan);
+  --code-punctuation: var(--miasma-fg-muted);
+  --code-string: var(--miasma-green);
+  --code-tag: var(--miasma-yellow);
+  --code-value: var(--miasma-orange);
+  --syntax-normal: var(--miasma-fg);
+  --syntax-comment: var(--miasma-muted);
+  --syntax-function: var(--miasma-accent);
+  --syntax-important: var(--miasma-cyan);
+  --syntax-keyword: var(--miasma-magenta);
+  --syntax-number: var(--miasma-orange);
+  --syntax-operator: var(--miasma-fg-muted);
+  --syntax-property: var(--miasma-cyan);
+  --syntax-punctuation: var(--miasma-fg-muted);
+  --syntax-string: var(--miasma-green);
+  --syntax-tag: var(--miasma-yellow);
+  --syntax-type: var(--miasma-yellow);
+  --syntax-variable: var(--miasma-fg);
+  --syntax-constant: var(--miasma-orange);
+  --blockquote-border-color: var(--miasma-accent);
+  --hr-color: #383833;
+  --list-bullet-color: var(--miasma-fg-muted);
+  --checkbox-color: var(--miasma-accent);
+  --checkbox-color-hover: color-mix(in srgb, var(--miasma-accent) 82%, #fff);
+  --tag-color: var(--miasma-cyan);
+  --tag-background: color-mix(in srgb, var(--miasma-accent) 18%, transparent);
+  --table-background: var(--miasma-bg-dark);
+  --table-border-color: #383833;
+  --table-header-background: var(--miasma-bg-light);
+  --table-row-alternative-background: rgb(120 130 75 / 5%);
+  --footnote-text-color: var(--miasma-fg-muted);
+  --embedded-note-background: var(--miasma-bg-dark);
+
+  /* Callouts ------------------------------------------------------------- */
+
+  --callout-info: var(--miasma-accent);
+  --callout-note: var(--miasma-green);
+  --callout-tip: var(--miasma-cyan);
+  --callout-success: var(--miasma-green);
+  --callout-warning: var(--miasma-yellow);
+  --callout-danger: var(--miasma-magenta);
+  --callout-error: var(--miasma-magenta);
+  --callout-question: var(--miasma-cyan);
+  --callout-quote: var(--miasma-fg-muted);
+  --callout-abstract: var(--miasma-accent);
+  --callout-summary: var(--miasma-accent);
+  --callout-todo: var(--miasma-accent);
+  --callout-bug: var(--miasma-orange);
+  --callout-example: var(--miasma-cyan);
+  --callout-fail: var(--miasma-magenta);
+  --callout-missing: var(--miasma-muted);
+  --callout-done: var(--miasma-green);
+
+  /* Graph and Canvas ----------------------------------------------------- */
+
+  --graph-background: var(--miasma-bg);
+  --graph-text: var(--miasma-fg-muted);
+  --graph-node: var(--miasma-accent);
+  --graph-node-focused: var(--miasma-cyan);
+  --graph-node-hover: var(--miasma-cyan);
+  --graph-node-tag: var(--miasma-green);
+  --graph-node-attachment: var(--miasma-orange);
+  --graph-line: var(--miasma-fg-muted);
+  --graph-arrow: var(--miasma-fg-muted);
+  --canvas-background: var(--miasma-bg-darker);
+  --canvas-card-label-color: var(--miasma-fg-muted);
+  --canvas-color-1: var(--miasma-accent);
+  --canvas-color-2: var(--miasma-green);
+  --canvas-color-3: var(--miasma-cyan);
+  --canvas-color-4: var(--miasma-yellow);
+  --canvas-color-5: var(--miasma-magenta);
+  --canvas-color-6: var(--miasma-orange);
+  --canvas-node-background: var(--miasma-bg-light);
+  --canvas-node-border: #383833;
+  --canvas-selection: var(--miasma-accent);
+}
+
+/* Headings ---------------------------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--miasma-fg);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+h1 {
+  color: var(--miasma-cyan);
+  font-size: 1.85em;
+}
+
+h2 {
+  color: color-mix(in srgb, var(--miasma-cyan) 68%, var(--miasma-fg));
+  font-size: 1.5em;
+}
+
+h3 {
+  color: color-mix(in srgb, var(--miasma-accent) 55%, var(--miasma-fg));
+  font-size: 1.25em;
+}
+
+h4,
+h5,
+h6 {
+  color: var(--miasma-fg-muted);
+}
+
+/* Links ------------------------------------------------------------------- */
+
+a,
+.markdown-link-text,
+.internal-link {
+  color: var(--text-accent);
+  text-underline-offset: 3px;
+  transition: color 120ms ease;
+}
+
+a:hover,
+.markdown-link-text:hover,
+.internal-link:hover {
+  color: var(--text-accent-hover);
+}
+
+.internal-link.is-unresolved {
+  color: var(--miasma-orange);
+}
+
+.external-link::after {
+  opacity: 0.55;
+}
+
+/* Quotes, rules and lists ------------------------------------------------- */
+
+blockquote {
+  background: color-mix(in srgb, var(--miasma-accent) 9%, transparent);
+  border-left: 3px solid var(--miasma-accent);
+  border-radius: 0 var(--radius-s) var(--radius-s) 0;
+  color: var(--miasma-fg-muted);
+  font-style: italic;
+  margin-inline-start: 0;
+  padding: 0.65em 1em;
+}
+
+hr {
+  background: linear-gradient(90deg, var(--miasma-accent), var(--hr-color) 45%, transparent);
+  border: none;
+  height: 1px;
+  opacity: 0.8;
+}
+
+ul > li::marker,
+ol > li::marker {
+  color: var(--list-bullet-color);
+}
+
+/* Code -------------------------------------------------------------------- */
+
+code {
+  background: rgb(18 18 18 / 55%);
+  border-radius: var(--radius-s);
+  padding: 0.12em 0.35em;
+}
+
+pre {
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.mcm-contents,
+.cm-scroller .cm-line {
+  line-height: 1.6;
+}
+
+/* Tables and properties --------------------------------------------------- */
+
+table {
+  border-radius: var(--radius-s);
+}
+
+th {
+  color: var(--miasma-fg);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.metadata-property-key-input {
+  color: var(--miasma-fg-muted);
+}
+
+/* Tags -------------------------------------------------------------------- */
+
+.tag {
+  border: 1px solid color-mix(in srgb, var(--miasma-accent) 35%, transparent);
+  border-radius: 999px;
+  font-size: 0.85em;
+  padding: 0.1em 0.65em;
+}
+
+/* Callouts ---------------------------------------------------------------- */
+
+.callout {
+  border-radius: var(--radius-m);
+}
+
+.callout-title {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Interface polish -------------------------------------------------------- */
+
+.ribbon-action-item svg {
+  opacity: 0.75;
+  transition: opacity 120ms ease;
+}
+
+.ribbon-action-item:hover svg,
+.ribbon-action-item.is-active svg {
+  opacity: 1;
+}
+
+.workspace-leaf-content[data-type="file-explorer"] .nav-item {
+  border-radius: var(--radius-s);
+}
+
+.workspace-leaf-content[data-type="file-explorer"] .nav-item:hover {
+  background: var(--background-modifier-hover);
+}
+
+.sidebar-content,
+.status-bar {
+  font-size: 0.9em;
+}
+
+.search-result-file-title,
+.search-result-file-match {
+  border-radius: var(--radius-s);
+}
+
+/* Respect the user's reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  a,
+  .markdown-link-text,
+  .internal-link,
+  .ribbon-action-item svg {
+    transition: none;
+  }
+}
