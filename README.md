@@ -1,6 +1,6 @@
 # Miasma for Obsidian
 
-A dark, organic Obsidian theme built from the **Miasma** palette by xero, as shipped with [Omarchy](https://github.com/omacom/omarchy). Earthy neutrals, a muted olive accent, and warm gold accents for links and headings — calm enough for long writing sessions, with enough warmth to keep the interface feeling alive.
+A restrained dark theme built on the **Miasma** palette by xero, as shipped with [Omarchy](https://github.com/omacom/omarchy). Muted earth tones, readable contrast, and quiet interface chrome — made for long writing sessions without visual noise.
 
 ![Miasma theme screenshot](./screenshots/screenshot.png)
 
@@ -32,24 +32,30 @@ The accent follows Obsidian's **Accent color** setting, so you can tweak it from
 
 ## Design
 
-- **Two typefaces:** Reading view uses a literary serif stack; editing view stays in a clean sans so writing feels focused
-- **Ornamented headings:** h1 gets a fading olive rule, h2 an underline, h4–h6 small-caps label styling
-- **Dashed gold links** that fill in on hover, unresolved links in terracotta
-- **Blockquotes** with a soft olive wash, decorative quote mark and serif italics
-- **Code blocks** with rounded corners, a soft shadow and a three-dot window header in Reading view
-- **Tables** with uppercase serif headers and an olive underline
-- **Tag pills**, tinted callouts, an ornamented horizontal rule and custom checkboxes
-- **Polished chrome:** active tabs with an accent top line, ribbon items with an accent rail, rounded file-explorer rows, blurred modals and slim olive-tinted scrollbars
-- Subtle hover transitions throughout, with a `prefers-reduced-motion` fallback
-- Extra styling for Dataview tables and Kanban boards
-
-Full semantic color mapping covers surfaces, text, interactive states, borders and form fields, plus both `--code-*` and legacy `--syntax-*` highlighting, Graph and Canvas colors. Everything is local — no remote fonts, images or network calls.
+- **Readable by default.** Foreground, muted text, links and syntax colors are tuned to stay legible against the Miasma surfaces; no low-contrast decoration.
+- **Quiet hierarchy.** Headings use size, weight and color instead of rules and ornaments. Links are underlined and settle on hover; unresolved links are dotted.
+- **Focused editor.** Subtle active-line tint, clear selection and caret, readable gutters, tidy fold placeholders and tooltips.
+- **Useful chrome.** Accent markers on active tabs and files, hover states across the ribbon and file explorer, clean modals, popovers and slim scrollbars.
+- **Consistent surfaces.** Code blocks, tables, callouts, tags, properties and embeds all use the same small set of radii and borders.
+- **Plugin-friendly.** Sensible styles for Dataview tables and Kanban boards, plus both `--code-*` and legacy `--syntax-*` highlighting, Graph and Canvas colors.
+- **Fast.** No remote fonts, images or network requests. Transitions respect `prefers-reduced-motion`.
 
 Only dark mode is supported, matching the original Miasma palette.
 
+## Style Settings
+
+Install the [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin to configure:
+
+| Option | What it does |
+| --- | --- |
+| Compact interface | Smaller text and tighter spacing across the editor, file explorer and status bar |
+| Serif Reading view | Opt-in serif text in Reading view; editing view stays sans |
+| Quiet sidebar | Dim inactive side panels |
+| Note width | Slider for the maximum line width (520–1100 px, default 740) |
+
 ## Fonts
 
-Locally available font stacks are used by default, so the theme works fully offline. Override `--miasma-serif`, `--font-text-theme`, `--font-ui-theme` or `--font-monospace-theme` in a snippet to change them.
+System font stacks are used by default, so the theme works fully offline. Override `--miasma-serif`, `--font-text-theme`, `--font-ui-theme` or `--font-monospace-theme` in a snippet to change them.
 
 ## Credits
 
