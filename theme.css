@@ -5,23 +5,23 @@ settings:
   -
     id: miasma-compact
     title: Compact interface
-    description: Tighter spacing and smaller text so more content fits on screen.
+    description: Tighter spacing and smaller UI text for dense workspaces.
     type: class-toggle
     addCommand: true
   -
     id: miasma-reading-serif
     title: Serif Reading view
-    description: Use a serif text face in Reading view. Editing view stays sans.
+    description: Use a literary serif in Reading view. Editing view stays sans.
     type: class-toggle
   -
     id: miasma-quiet-sidebar
     title: Quiet sidebar
-    description: Reduce the contrast of inactive side panels.
+    description: Dim inactive side docks so the note stays dominant.
     type: class-toggle
   -
     id: miasma-note-width
     title: Note width
-    description: Maximum note line width in pixels.
+    description: Maximum line length for notes.
     type: variable-number-slider
     default: 740
     min: 520
@@ -32,52 +32,90 @@ settings:
 
 /*
  * Miasma for Obsidian
- * Palette by xero, shipped with Omarchy. Restrained dark UI for sustained work.
- * All text colors meet at least 4.5:1 against the surfaces they sit on.
+ *
+ * Architecture: this theme is variable-first. Obsidian's own stylesheet reads
+ * semantic variables (--h1-color, --link-color, --tab-background, ...) for every
+ * surface and element. Setting those variables here means the app applies our
+ * palette through its normal cascade, instead of us fighting its selectors with
+ * overrides. Element rules are used only where Obsidian exposes no variable.
+ *
+ * Palette: Miasma by xero, shipped with Omarchy. Base colors are used verbatim
+ * from colors.toml; "-text" variants are lighter versions of the same hues so
+ * body copy meets WCAG AA on the dark surfaces.
  */
 
-/* Palette ---------------------------------------------------------------- */
+/* Palette tokens ---------------------------------------------------------- */
 
 body {
+  /* Surfaces */
   --miasma-bg: #222;
-  --miasma-bg-raised: #191917;
-  --miasma-bg-alt: #1f1f1c;
-  --miasma-bg-darker: #141412;
-  --miasma-bg-hover: #2d2d26;
-  --miasma-bg-active: #353529;
+  --miasma-bg-alt: #191919;
+  --miasma-bg-deep: #121212;
+  --miasma-bg-raised: #2c2c2c;
+  --miasma-hover: #2d2d26;
+  --miasma-active: #353529;
   --miasma-border: #36362f;
   --miasma-border-strong: #4a4a3f;
+
+  /* Text */
   --miasma-fg: #c2c2b0;
   --miasma-fg-muted: #8a8a7e;
-  --miasma-fg-faint: #828278;
-  --miasma-accent: #78824b;
-  --miasma-accent-text: #a8b07a;
-  --miasma-link: #c9a554;
-  --miasma-link-hover: #e0c98a;
+  --miasma-fg-faint: #7f7f74;
+  --miasma-fg-on-accent: #12120f;
+
+  /* Accent — olive is for interactive intent, not decoration */
+  --miasma-olive: #78824b;
+  --miasma-olive-text: #a8b07a;
+
+  /* Gold — navigation and links only */
+  --miasma-gold: #c9a554;
+  --miasma-gold-bright: #e0c98a;
+
+  /* Status hues — each has one job */
+  --miasma-green: #5f875f;
   --miasma-green-text: #93a97e;
+  --miasma-orange: #b36d43;
   --miasma-orange-text: #d99b62;
+  --miasma-terracotta: #b74;
   --miasma-red-text: #d79a70;
+  --miasma-brown: #463121;
+
+  /* Decorative / structural */
+  --miasma-muted: #666;
+
+  /* Type */
   --miasma-serif: "Noto Serif", "Iowan Old Style", "Palatino Linotype", "Georgia", serif;
-  --font-text-theme: -apple-system, blinkmacsystemfont, "Segoe UI", roboto, "Helvetica Neue", sans-serif;
   --font-ui-theme: -apple-system, blinkmacsystemfont, "Segoe UI", roboto, "Helvetica Neue", sans-serif;
+  --font-text-theme: -apple-system, blinkmacsystemfont, "Segoe UI", roboto, "Helvetica Neue", sans-serif;
   --font-monospace-theme: "JetBrains Mono", "Fira Code", "SFMono-Regular", consolas, "Liberation Mono", monospace;
+
+  /* Map the overrideable tokens onto the variables Obsidian actually reads */
+  --font-interface: var(--font-ui-theme);
+  --font-text: var(--font-text-theme);
+  --font-monospace: var(--font-monospace-theme);
+
+  /* Progressively enhanced by Style Settings; safe without the plugin */
   --file-line-width: var(--miasma-note-width, 740px);
+
+  /* Shared scale */
   --radius-s: 4px;
-  --radius-m: 7px;
+  --radius-m: 6px;
   --radius-l: 10px;
+  --radius-xl: 14px;
   --miasma-duration: 140ms;
 }
 
-/* Semantic variables ----------------------------------------------------- */
+/* Semantic mapping -------------------------------------------------------- */
 
-.theme-dark {
+body.theme-dark {
+  /* Base palette -------------------------------------------------------- */
   --accent-h: 71;
   --accent-s: 27%;
   --accent-l: 40%;
-  --color-base-00: var(--miasma-bg-darker);
-  --color-base-05: var(--miasma-bg-raised);
+  --color-base-00: var(--miasma-bg-deep);
+  --color-base-05: var(--miasma-bg-alt);
   --color-base-10: var(--miasma-bg);
-  --color-base-20: var(--miasma-bg-hover);
+  --color-base-20: var(--miasma-bg-raised);
   --color-base-25: #3a3a30;
   --color-base-30: var(--miasma-border-strong);
   --color-base-35: #55554a;
@@ -88,565 +126,261 @@ body {
   --color-base-100: var(--miasma-fg);
   --color-red: var(--miasma-red-text);
   --color-orange: var(--miasma-orange-text);
-  --color-yellow: var(--miasma-link);
+  --color-yellow: var(--miasma-orange-text);
   --color-green: var(--miasma-green-text);
-  --color-cyan: var(--miasma-link);
-  --color-blue: var(--miasma-accent-text);
+  --color-cyan: var(--miasma-gold);
+  --color-blue: var(--miasma-olive-text);
   --color-purple: #b59a72;
   --color-pink: #c99c7a;
+
+  /* Surfaces ------------------------------------------------------------ */
   --background-primary: var(--miasma-bg);
   --background-primary-alt: var(--miasma-bg-alt);
-  --background-secondary: var(--miasma-bg-raised);
-  --background-secondary-alt: var(--miasma-bg-darker);
+  --background-secondary: var(--miasma-bg-alt);
+  --background-secondary-alt: var(--miasma-bg-deep);
   --background-modifier-border: var(--miasma-border);
   --background-modifier-border-hover: var(--miasma-border-strong);
-  --background-modifier-border-focus: var(--miasma-accent);
-  --background-modifier-hover: color-mix(in srgb, var(--miasma-accent) 16%, transparent);
-  --background-modifier-active-hover: color-mix(in srgb, var(--miasma-accent) 26%, transparent);
-  --background-modifier-form-field: var(--miasma-bg-hover);
-  --background-modifier-form-field-highlighted: var(--miasma-bg-active);
-  --background-modifier-box-shadow: rgb(0 0 0 / 40%);
-  --background-modifier-cover: rgb(12 12 10 / 82%);
-  --background-modifier-message: var(--miasma-bg-hover);
-  --background-modifier-success: color-mix(in srgb, var(--miasma-green-text) 20%, transparent);
-  --background-modifier-error: color-mix(in srgb, var(--miasma-red-text) 20%, transparent);
-  --background-modifier-error-hover: color-mix(in srgb, var(--miasma-red-text) 30%, transparent);
+  --background-modifier-border-focus: var(--miasma-olive);
+  --background-modifier-hover: color-mix(in srgb, var(--miasma-olive) 16%, transparent);
+  --background-modifier-active-hover: color-mix(in srgb, var(--miasma-olive) 26%, transparent);
+  --background-modifier-form-field: var(--miasma-hover);
+  --background-modifier-form-field-hover: var(--miasma-active);
+  --background-modifier-box-shadow: rgb(0 0 0 / 45%);
+  --background-modifier-cover: rgb(10 10 8 / 84%);
+  --background-modifier-message: var(--miasma-bg-raised);
+  --background-modifier-success: color-mix(in srgb, var(--miasma-green) 22%, transparent);
+  --background-modifier-warning: color-mix(in srgb, var(--miasma-orange) 22%, transparent);
+  --background-modifier-error: color-mix(in srgb, var(--miasma-terracotta) 20%, transparent);
+  --background-modifier-warning-hover: color-mix(in srgb, var(--miasma-orange) 32%, transparent);
+  --background-modifier-error-hover: color-mix(in srgb, var(--miasma-terracotta) 30%, transparent);
+
+  /* Text and interaction ------------------------------------------------ */
   --text-normal: var(--miasma-fg);
   --text-muted: var(--miasma-fg-muted);
   --text-faint: var(--miasma-fg-faint);
-  --text-on-accent: #12120f;
+  --text-on-accent: var(--miasma-fg-on-accent);
   --text-on-accent-inverted: var(--miasma-fg);
-  --text-accent: var(--miasma-link);
-  --text-accent-hover: var(--miasma-link-hover);
+  --text-accent: var(--miasma-gold);
+  --text-accent-hover: var(--miasma-gold-bright);
   --text-success: var(--miasma-green-text);
   --text-warning: var(--miasma-orange-text);
   --text-error: var(--miasma-red-text);
-  --text-error-hover: #e6ac8d;
-  --text-selection: color-mix(in srgb, var(--miasma-accent) 42%, var(--miasma-bg));
-  --text-highlight-bg: color-mix(in srgb, var(--miasma-link) 26%, transparent);
-  --text-highlight-bg-active: color-mix(in srgb, var(--miasma-orange-text) 32%, transparent);
-  --caret-color: var(--miasma-link);
-  --interactive-normal: var(--miasma-bg-hover);
-  --interactive-hover: var(--miasma-bg-active);
+  --text-selection: color-mix(in srgb, var(--miasma-olive) 42%, var(--miasma-bg));
+  --caret-color: var(--miasma-gold);
+  --interactive-normal: var(--miasma-hover);
+  --interactive-hover: var(--miasma-active);
   --interactive-accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
-  --interactive-accent-hover: color-mix(in srgb, var(--interactive-accent) 84%, #fff);
-  --interactive-success: var(--miasma-green-text);
-  --titlebar-background: var(--miasma-bg-darker);
-  --titlebar-background-focused: var(--miasma-bg-darker);
-  --titlebar-text-color: var(--miasma-fg-muted);
-  --titlebar-text-color-focused: var(--miasma-fg);
-  --ribbon-background: var(--miasma-bg-darker);
-  --status-bar-background: var(--miasma-bg-darker);
-  --status-bar-text-color: var(--miasma-fg-muted);
-  --side-bar-background: var(--miasma-bg-raised);
-  --side-bar-background-section: var(--miasma-bg-raised);
-  --side-bar-text-color: var(--miasma-fg);
-  --tab-container-background: var(--miasma-bg-darker);
-  --tab-background: var(--miasma-bg-raised);
-  --tab-background-active: var(--miasma-bg);
-  --tab-text-color: var(--miasma-fg-muted);
-  --tab-text-color-active: var(--miasma-fg);
-  --tab-divider-color: var(--miasma-bg-darker);
-  --popover-background: var(--miasma-bg-hover);
-  --modal-background: var(--miasma-bg);
-  --modal-border-color: var(--miasma-border-strong);
-  --modal-shadow: 0 18px 48px rgb(0 0 0 / 55%);
-  --divider-color: var(--miasma-border);
-  --divider-color-hover: var(--miasma-accent);
-  --scrollbar-bg: transparent;
-  --scrollbar-thumb-bg: rgb(120 130 75 / 30%);
-  --scrollbar-active-thumb-bg: rgb(201 165 84 / 45%);
-  --inline-code-color: var(--miasma-link);
-  --code-background: var(--miasma-bg-raised);
+  --interactive-accent-hover: color-mix(in srgb, var(--miasma-olive) 84%, #fff);
+
+  /* Links ---------------------------------------------------------------- */
+  --link-color: var(--miasma-gold);
+  --link-color-hover: var(--miasma-gold-bright);
+  --link-weight: 400;
+  --link-decoration: underline;
+  --link-decoration-hover: underline;
+  --link-external-color: var(--miasma-gold);
+  --link-external-color-hover: var(--miasma-gold-bright);
+  --link-unresolved-color: var(--miasma-orange-text);
+  --link-unresolved-decoration-style: dotted;
+  --link-unresolved-opacity: 0.95;
+
+  /* Headings ------------------------------------------------------------- */
+  --h1-color: var(--miasma-gold);
+  --h2-color: color-mix(in srgb, var(--miasma-gold) 55%, var(--miasma-fg));
+  --h3-color: var(--miasma-olive-text);
+  --h4-color: var(--miasma-fg-muted);
+  --h5-color: var(--miasma-fg-muted);
+  --h6-color: var(--miasma-fg-muted);
+  --h1-size: 1.75em;
+  --h2-size: 1.45em;
+  --h3-size: 1.22em;
+  --h4-size: 1.08em;
+  --h5-size: 1em;
+  --h6-size: 1em;
+  --h1-weight: 600;
+  --h2-weight: 600;
+  --h3-weight: 600;
+  --heading-spacing: 1.4em;
+  --inline-title-color: var(--miasma-gold);
+  --inline-title-size: 1.85em;
+  --inline-title-weight: 600;
+
+  /* Body rhythm ---------------------------------------------------------- */
+  --line-height-normal: 1.65;
+  --line-height-tight: 1.35;
+  --p-spacing: 1em;
+  --p-spacing-empty: 0.5em;
+  --list-spacing: 0.35em;
+  --list-marker-color: var(--miasma-olive-text);
+  --list-marker-color-hover: var(--miasma-gold);
+  --hr-color: var(--miasma-border-strong);
+  --hr-thickness: 1px;
+
+  /* Code ----------------------------------------------------------------- */
+  --code-background: var(--miasma-bg-alt);
   --code-normal: var(--miasma-fg);
+  --code-border-color: var(--miasma-border);
+  --code-border-width: 1px;
+  --code-radius: var(--radius-s);
+  --code-size: 0.9em;
   --code-comment: var(--miasma-fg-faint);
-  --code-function: var(--miasma-accent-text);
-  --code-important: var(--miasma-link);
+  --code-function: var(--miasma-olive-text);
+  --code-important: var(--miasma-gold);
   --code-keyword: var(--miasma-red-text);
   --code-operator: var(--miasma-fg-muted);
-  --code-property: var(--miasma-link);
+  --code-property: var(--miasma-gold);
   --code-punctuation: var(--miasma-fg-muted);
   --code-string: var(--miasma-green-text);
   --code-tag: var(--miasma-orange-text);
   --code-value: var(--miasma-orange-text);
-  --syntax-normal: var(--miasma-fg);
-  --syntax-comment: var(--miasma-fg-faint);
-  --syntax-function: var(--miasma-accent-text);
-  --syntax-important: var(--miasma-link);
-  --syntax-keyword: var(--miasma-red-text);
-  --syntax-number: var(--miasma-orange-text);
-  --syntax-operator: var(--miasma-fg-muted);
-  --syntax-property: var(--miasma-link);
-  --syntax-punctuation: var(--miasma-fg-muted);
-  --syntax-string: var(--miasma-green-text);
-  --syntax-tag: var(--miasma-orange-text);
-  --syntax-type: var(--miasma-link);
-  --syntax-variable: var(--miasma-fg);
-  --syntax-constant: var(--miasma-orange-text);
-  --blockquote-border-color: var(--miasma-accent);
-  --hr-color: var(--miasma-border-strong);
-  --list-bullet-color: var(--miasma-accent-text);
-  --checkbox-color: var(--miasma-accent);
-  --checkbox-color-hover: var(--miasma-accent-text);
-  --tag-color: var(--miasma-link);
-  --tag-background: color-mix(in srgb, var(--miasma-accent) 14%, transparent);
-  --table-background: var(--miasma-bg-raised);
+
+  /* Tables --------------------------------------------------------------- */
+  --table-background: var(--miasma-bg-alt);
+  --table-border-width: 1px;
   --table-border-color: var(--miasma-border);
-  --table-header-background: var(--miasma-bg-hover);
-  --table-row-alternative-background: color-mix(in srgb, var(--miasma-accent) 4%, transparent);
-  --footnote-text-color: var(--miasma-fg-muted);
-  --embedded-note-background: var(--miasma-bg-raised);
-  --callout-info: var(--miasma-accent-text);
-  --callout-note: var(--miasma-green-text);
-  --callout-tip: var(--miasma-link);
+  --table-header-background: var(--miasma-hover);
+  --table-header-background-hover: var(--miasma-active);
+  --table-header-color: var(--miasma-gold);
+  --table-header-weight: 600;
+  --table-text-color: var(--miasma-fg);
+  --table-row-alt-background: color-mix(in srgb, var(--miasma-olive) 5%, transparent);
+  --table-row-background-hover: var(--background-modifier-hover);
+
+  /* Tags ----------------------------------------------------------------- */
+  --tag-color: var(--miasma-gold);
+  --tag-color-hover: var(--miasma-gold-bright);
+  --tag-background: color-mix(in srgb, var(--miasma-olive) 14%, transparent);
+  --tag-background-hover: color-mix(in srgb, var(--miasma-olive) 26%, transparent);
+  --tag-border-color: color-mix(in srgb, var(--miasma-olive) 30%, transparent);
+  --tag-border-color-hover: var(--miasma-olive);
+  --tag-border-width: 1px;
+  --tag-radius: 999px;
+  --tag-size: 0.85em;
+
+  /* Quotes and callouts -------------------------------------------------- */
+  --blockquote-border-color: var(--miasma-olive);
+  --blockquote-border-thickness: 2px;
+  --blockquote-color: var(--miasma-fg);
+  --blockquote-background-color: color-mix(in srgb, var(--miasma-olive) 8%, transparent);
+  --callout-border-width: 0px;
+  --callout-radius: var(--radius-m);
+  --callout-title-weight: 600;
+  --callout-default: var(--miasma-olive-text);
+  --callout-info: var(--miasma-olive-text);
+  --callout-tip: var(--miasma-gold);
   --callout-success: var(--miasma-green-text);
   --callout-warning: var(--miasma-orange-text);
-  --callout-danger: var(--miasma-red-text);
   --callout-error: var(--miasma-red-text);
-  --callout-question: var(--miasma-link);
+  --callout-question: var(--miasma-gold);
   --callout-quote: var(--miasma-fg-muted);
-  --callout-abstract: var(--miasma-accent-text);
-  --callout-summary: var(--miasma-accent-text);
-  --callout-todo: var(--miasma-accent-text);
+  --callout-summary: var(--miasma-olive-text);
+  --callout-todo: var(--miasma-olive-text);
   --callout-bug: var(--miasma-orange-text);
-  --callout-example: var(--miasma-link);
+  --callout-example: var(--miasma-gold);
   --callout-fail: var(--miasma-red-text);
-  --callout-missing: var(--miasma-fg-faint);
-  --callout-done: var(--miasma-green-text);
-  --graph-background: var(--miasma-bg);
+
+  /* File explorer and docks ---------------------------------------------- */
+  --nav-item-color: var(--miasma-fg-muted);
+  --nav-item-color-hover: var(--miasma-fg);
+  --nav-item-color-active: var(--miasma-gold);
+  --nav-item-color-selected: var(--miasma-gold);
+  --nav-item-background-hover: var(--background-modifier-hover);
+  --nav-item-background-active: color-mix(in srgb, var(--miasma-olive) 18%, transparent);
+  --nav-item-background-selected: color-mix(in srgb, var(--miasma-olive) 22%, transparent);
+  --nav-item-radius: var(--radius-s);
+  --nav-heading-color: var(--miasma-fg-faint);
+  --nav-heading-color-hover: var(--miasma-fg-muted);
+  --nav-heading-weight: 500;
+  --nav-tag-color: var(--miasma-gold);
+  --nav-tag-background: color-mix(in srgb, var(--miasma-olive) 16%, transparent);
+  --nav-indentation-guide-color: var(--miasma-border);
+
+  /* Tabs ----------------------------------------------------------------- */
+  --tab-container-background: var(--miasma-bg-deep);
+  --tab-background: var(--miasma-bg-alt);
+  --tab-background-hover: var(--miasma-hover);
+  --tab-background-active: var(--miasma-bg);
+  --tab-text-color: var(--miasma-fg-muted);
+  --tab-text-color-active: var(--miasma-fg);
+  --tab-text-color-focused: var(--miasma-fg-muted);
+  --tab-text-color-focused-active-current: var(--miasma-fg);
+  --tab-divider-color: var(--miasma-bg-deep);
+  --tab-outline-color: var(--miasma-border);
+  --tab-radius: var(--radius-s);
+  --tab-radius-active: var(--radius-s);
+
+  /* Ribbon, status bar, shells ------------------------------------------- */
+  --ribbon-background: var(--miasma-bg-deep);
+  --ribbon-background-collapsed: var(--miasma-bg-deep);
+  --titlebar-background: var(--miasma-bg-deep);
+  --titlebar-background-focused: var(--miasma-bg-deep);
+  --titlebar-text-color: var(--miasma-fg-muted);
+  --titlebar-text-color-focused: var(--miasma-fg);
+  --status-bar-background: var(--miasma-bg-deep);
+  --status-bar-text-color: var(--miasma-fg-muted);
+  --status-bar-border-color: var(--miasma-border);
+  --status-bar-font-size: 0.85em;
+  --modal-background: var(--miasma-bg);
+  --modal-border-color: var(--miasma-border-strong);
+  --modal-radius: var(--radius-l);
+  --modal-shadow: 0 18px 48px rgb(0 0 0 / 55%);
+
+  /* Scrollbars ----------------------------------------------------------- */
+  --scrollbar-bg: transparent;
+  --scrollbar-thumb-bg: rgb(120 130 75 / 30%);
+  --scrollbar-active-thumb-bg: rgb(201 165 84 / 45%);
+  --scrollbar-radius: 8px;
+  --scrollbar-width: 8px;
+  --scrollbar-height: 8px;
+  --scrollbar-border-width: 2px;
+
+  /* Forms ---------------------------------------------------------------- */
+  --input-focus-border-color: var(--miasma-olive);
+  --input-placeholder-color: var(--miasma-fg-faint);
+  --checkbox-color: var(--miasma-olive);
+  --checkbox-color-hover: var(--miasma-olive-text);
+  --checkbox-border-color: var(--miasma-border-strong);
+  --checkbox-border-color-hover: var(--miasma-olive);
+
+  /* Graph and Canvas ----------------------------------------------------- */
   --graph-text: var(--miasma-fg-muted);
-  --graph-node: var(--miasma-accent);
-  --graph-node-focused: var(--miasma-link);
-  --graph-node-hover: var(--miasma-link);
+  --graph-node: var(--miasma-olive);
+  --graph-node-focused: var(--miasma-gold);
   --graph-node-tag: var(--miasma-green-text);
   --graph-node-attachment: var(--miasma-orange-text);
+  --graph-node-unresolved: var(--miasma-orange-text);
   --graph-line: var(--miasma-fg-faint);
-  --graph-arrow: var(--miasma-fg-faint);
-  --canvas-background: var(--miasma-bg-darker);
-  --canvas-card-label-color: var(--miasma-fg-muted);
-  --canvas-color-1: var(--miasma-accent);
-  --canvas-color-2: var(--miasma-green-text);
-  --canvas-color-3: var(--miasma-link);
-  --canvas-color-4: var(--miasma-orange-text);
-  --canvas-color-5: var(--miasma-red-text);
-  --canvas-color-6: #b59a72;
-  --canvas-node-background: var(--miasma-bg-hover);
-  --canvas-node-border: var(--miasma-border);
-  --canvas-selection: var(--miasma-link);
+  --canvas-background: var(--miasma-bg-deep);
+  --canvas-color-1: var(--miasma-olive);
+  --canvas-color-2: var(--miasma-green);
+  --canvas-color-3: var(--miasma-gold);
+  --canvas-color-4: var(--miasma-orange);
+  --canvas-color-5: var(--miasma-terracotta);
+  --canvas-color-6: var(--miasma-brown);
 }
 
-/* Foundations ------------------------------------------------------------ */
+/* Element rules — only where Obsidian exposes no variable ----------------- */
 
-body {
-  font-family: var(--font-ui-theme);
-  line-height: 1.6;
-}
-
-:focus-visible {
-  outline: 2px solid var(--miasma-accent);
-  outline-offset: 2px;
-}
-
-::selection {
-  background: var(--text-selection);
-  color: var(--miasma-fg);
-}
-
-.cm-scroller,
-.markdown-reading-view .markdown-preview-view {
-  line-height: 1.7;
-}
-
-.markdown-source-view .cm-content {
-  line-height: 1.65;
-  padding-bottom: 48px;
-}
-
-/* Typography ------------------------------------------------------------- */
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: var(--miasma-fg);
-  font-weight: 600;
-  letter-spacing: -0.012em;
-  line-height: 1.3;
-  margin-bottom: 0.5em;
-  margin-top: 1.6em;
-}
-
-h1 {
-  color: var(--miasma-link);
-  font-size: 1.9em;
-}
-
-h2 {
-  color: color-mix(in srgb, var(--miasma-link) 48%, var(--miasma-fg));
-  font-size: 1.5em;
-}
-
-h3 {
-  color: var(--miasma-accent-text);
-  font-size: 1.22em;
-}
-
-h4,
-h5,
-h6 {
-  color: var(--miasma-fg-muted);
-  font-size: 1.05em;
-}
-
-.cm-header-1 {
-  color: var(--miasma-link);
-}
-
-.cm-header-2 {
-  color: color-mix(in srgb, var(--miasma-link) 48%, var(--miasma-fg));
-}
-
-.cm-header-3 {
-  color: var(--miasma-accent-text);
-}
-
-/* Links ------------------------------------------------------------------- */
-
-a,
-.markdown-link-text,
-.internal-link {
-  border-bottom: 1px solid color-mix(in srgb, var(--miasma-link) 38%, transparent);
-  color: var(--miasma-link);
-  text-decoration: none;
-  transition: border-color var(--miasma-duration) ease, color var(--miasma-duration) ease;
-}
-
-a:hover,
-.markdown-link-text:hover,
-.internal-link:hover {
-  border-bottom-color: var(--miasma-link);
-  color: var(--miasma-link-hover);
-}
-
-.internal-link.is-unresolved {
-  border-bottom-style: dotted;
-  border-bottom-color: var(--miasma-orange-text);
-  color: var(--miasma-orange-text);
-}
-
-.external-link::after {
-  opacity: 0.55;
-}
-
-/* Body elements ----------------------------------------------------------- */
-
-blockquote {
-  background: color-mix(in srgb, var(--miasma-accent) 8%, transparent);
-  border-left: 2px solid var(--miasma-accent);
-  border-radius: 0 var(--radius-s) var(--radius-s) 0;
-  color: var(--miasma-fg);
-  margin-inline-start: 0;
-  padding: 0.6em 1em;
-}
-
-hr {
-  background: var(--miasma-border-strong);
-  border: 0;
-  height: 1px;
-  margin: 2em 0;
-  opacity: 0.8;
-}
-
-ul > li::marker,
-ol > li::marker {
-  color: var(--list-bullet-color);
-}
-
-.cm-indent {
-  border-left-color: color-mix(in srgb, var(--miasma-accent) 20%, transparent);
-}
-
-input[type="checkbox"] {
-  accent-color: var(--miasma-accent);
-}
-
-/* Code -------------------------------------------------------------------- */
-
-code {
-  background: color-mix(in srgb, var(--miasma-accent) 12%, transparent);
-  border: 1px solid color-mix(in srgb, var(--miasma-accent) 20%, transparent);
+/* Ribbon items: Obsidian 1.15 uses side-dock-* classes, not .ribbon-action-item */
+.side-dock-ribbon-action {
   border-radius: var(--radius-s);
-  color: var(--inline-code-color);
-  font-family: var(--font-monospace-theme);
-  font-size: 0.9em;
-  padding: 0.1em 0.35em;
+  transition: background-color var(--miasma-duration) ease, color var(--miasma-duration) ease;
 }
 
-pre {
-  background: var(--miasma-bg-raised);
-  border: 1px solid var(--miasma-border);
-  border-radius: var(--radius-m);
-  padding: 14px 16px;
+.side-dock-ribbon-action:hover {
+  background: var(--background-modifier-hover);
 }
 
-pre code {
-  background: transparent;
-  border: 0;
-  color: var(--miasma-fg);
-  padding: 0;
+.side-dock-ribbon-action.is-active {
+  background: color-mix(in srgb, var(--miasma-olive) 18%, transparent);
+  color: var(--miasma-gold);
 }
 
-/* Tables ------------------------------------------------------------------ */
-
-table {
-  border-collapse: separate;
-  border-radius: var(--radius-m);
-  border-spacing: 0;
-  overflow: hidden;
-  width: 100%;
-}
-
-th {
-  background: var(--miasma-bg-hover);
-  border-bottom: 1px solid var(--miasma-border-strong);
-  color: var(--miasma-link);
-  font-weight: 600;
-  padding: 8px 12px;
-  text-align: left;
-}
-
-td {
-  border-bottom: 1px solid var(--miasma-border);
-  padding: 7px 12px;
-}
-
-/* Tags, callouts, properties ---------------------------------------------- */
-
-.tag {
-  border: 1px solid color-mix(in srgb, var(--miasma-accent) 30%, transparent);
-  border-radius: 999px;
-  font-size: 0.85em;
-  padding: 0.1em 0.65em;
-  transition: background-color var(--miasma-duration) ease;
-}
-
-.tag:hover {
-  background: color-mix(in srgb, var(--miasma-accent) 26%, transparent);
-}
-
-.callout {
-  border: 1px solid var(--miasma-border);
-  border-left: 3px solid var(--callout-info);
-  border-radius: var(--radius-m);
-}
-
-.callout-title {
-  font-weight: 600;
-}
-
-.metadata-property-key-input {
-  color: var(--miasma-fg-muted);
-  font-size: 0.9em;
-}
-
-/* Editor ------------------------------------------------------------------ */
-
-/* stylelint-disable selector-class-pattern -- CodeMirror class names */
+/* Active line has no semantic variable */
+/* stylelint-disable-next-line selector-class-pattern -- CodeMirror class name */
 .cm-activeLine {
-  background: color-mix(in srgb, var(--miasma-accent) 7%, transparent);
+  background: color-mix(in srgb, var(--miasma-olive) 7%, transparent);
 }
-
-.cm-selectionBackground,
-.cm-content ::selection {
-  background: var(--text-selection);
-}
-
-.cm-cursor {
-  border-left-color: var(--caret-color);
-}
-
-.cm-gutters {
-  background: var(--miasma-bg);
-  border-right: 1px solid var(--miasma-border);
-  color: var(--miasma-fg-faint);
-}
-
-.cm-lineNumbers .cm-gutterElement {
-  padding: 0 10px 0 14px;
-}
-
-.cm-foldPlaceholder {
-  background: var(--miasma-bg-hover);
-  border: 1px solid var(--miasma-border);
-  border-radius: var(--radius-s);
-  color: var(--miasma-fg-muted);
-}
-/* stylelint-enable selector-class-pattern */
-
-.cm-tooltip {
-  background: var(--popover-background);
-  border: 1px solid var(--miasma-border);
-  border-radius: var(--radius-m);
-}
-
-.cm-formatting {
-  color: var(--miasma-fg-faint);
-}
-
-/* Workspace --------------------------------------------------------------- */
-
-.ribbon {
-  border-right: 1px solid var(--miasma-border);
-}
-
-.ribbon-action-item {
-  border-radius: var(--radius-s);
-  margin: 2px 5px;
-  transition: background-color var(--miasma-duration) ease, color var(--miasma-duration) ease;
-}
-
-.ribbon-action-item:hover {
-  background: var(--background-modifier-hover);
-}
-
-.ribbon-action-item.is-active {
-  background: color-mix(in srgb, var(--miasma-accent) 18%, transparent);
-  color: var(--miasma-link);
-}
-
-.workspace-tab-header {
-  border-radius: var(--radius-s) var(--radius-s) 0 0;
-  transition: background-color var(--miasma-duration) ease, color var(--miasma-duration) ease;
-}
-
-.workspace-tab-header.is-active {
-  box-shadow: inset 0 -2px 0 var(--miasma-accent);
-  color: var(--miasma-fg);
-}
-
-.workspace-tab-header-container:hover .tab-header-close-button {
-  opacity: 0.7;
-}
-
-.nav-file-title,
-.nav-folder-title {
-  border-radius: var(--radius-s);
-  margin: 1px 5px;
-  transition: background-color var(--miasma-duration) ease, color var(--miasma-duration) ease;
-}
-
-.nav-folder-title {
-  color: var(--miasma-fg-muted);
-  font-size: 0.85em;
-  letter-spacing: 0.05em;
-}
-
-.nav-file-title:hover,
-.nav-folder-title:hover {
-  background: var(--background-modifier-hover);
-}
-
-.nav-file-title.is-active {
-  background: color-mix(in srgb, var(--miasma-accent) 18%, transparent);
-  color: var(--miasma-link);
-}
-
-.status-bar {
-  border-top: 1px solid var(--miasma-border);
-  font-size: 0.9em;
-}
-
-.search-result-file-title,
-.search-result-file-match {
-  border-radius: var(--radius-s);
-}
-
-.suggestion-item.is-selected {
-  background: var(--background-modifier-active-hover);
-}
-
-.modal {
-  border: 1px solid var(--miasma-border-strong);
-  border-radius: var(--radius-l);
-}
-
-.popover {
-  border: 1px solid var(--miasma-border);
-  border-radius: var(--radius-m);
-}
-
-button {
-  border-radius: var(--radius-s);
-  transition: background-color var(--miasma-duration) ease, border-color var(--miasma-duration) ease;
-}
-
-/* Scrollbars -------------------------------------------------------------- */
-
-::-webkit-scrollbar {
-  height: 8px;
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb-bg);
-  background-clip: padding-box;
-  border: 2px solid transparent;
-  border-radius: 8px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-active-thumb-bg);
-  background-clip: padding-box;
-}
-
-/* Graph and Canvas -------------------------------------------------------- */
-
-.graph-view {
-  background: var(--miasma-bg);
-}
-
-.canvas-node {
-  border-radius: var(--radius-m);
-}
-
-.canvas-node.is-selected {
-  border-color: var(--miasma-link);
-}
-
-/* Plugin surfaces --------------------------------------------------------- */
-
-/* stylelint-disable selector-class-pattern -- third-party class names */
-.dataview.table-view-table {
-  border-radius: var(--radius-m);
-}
-
-.dataview.table-view-table td,
-.dataview.table-view-table th {
-  padding: 7px 12px;
-}
-
-.kanban-plugin__lane {
-  background: var(--miasma-bg-raised);
-  border: 1px solid var(--miasma-border);
-  border-radius: var(--radius-m);
-}
-
-.kanban-plugin__item {
-  background: var(--miasma-bg-hover);
-  border: 1px solid var(--miasma-border);
-  border-radius: var(--radius-s);
-}
-
-.tasks-list-text {
-  color: var(--miasma-fg);
-}
-/* stylelint-enable selector-class-pattern */
 
 /* Optional modes ---------------------------------------------------------- */
 
@@ -654,49 +388,23 @@ button {
   --font-text: var(--miasma-serif);
 }
 
-.miasma-quiet-sidebar .side-bar {
+.miasma-quiet-sidebar .workspace-sidedock {
   opacity: 0.82;
 }
 
 .miasma-compact {
-  font-size: 14px;
+  --font-ui-small: 0.85em;
+  --font-ui-smaller: 0.8em;
+  --nav-item-size: 0.85em;
+  --tab-font-size: 0.85em;
+  --status-bar-font-size: 0.78em;
+  --p-spacing: 0.7em;
+  --list-spacing: 0.2em;
+  --heading-spacing: 1em;
 }
-
-.miasma-compact .cm-content,
-.miasma-compact .markdown-reading-view .markdown-preview-view {
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.miasma-compact h1,
-.miasma-compact h2,
-.miasma-compact h3 {
-  margin-top: 1.1em;
-}
-
-.miasma-compact .nav-file-title,
-.miasma-compact .nav-folder-title {
-  padding-block: 1px;
-}
-
-.miasma-compact .status-bar {
-  font-size: 0.82em;
-}
-
-/* Reduced motion ---------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
-  a,
-  .markdown-link-text,
-  .internal-link,
-  .tag,
-  .ribbon-action-item,
-  .workspace-tab-header,
-  .nav-file-title,
-  .nav-folder-title,
-  button,
-  .search-result-file-title,
-  .search-result-file-match {
+  .side-dock-ribbon-action {
     transition: none;
   }
 }

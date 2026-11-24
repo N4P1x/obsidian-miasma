@@ -1,6 +1,8 @@
 # Miasma for Obsidian
 
-A restrained dark theme built on the **Miasma** palette by xero, as shipped with [Omarchy](https://github.com/omacom/omarchy). Muted earth tones, readable contrast, and quiet interface chrome — made for long writing sessions without visual noise.
+A restrained dark theme built on the **Miasma** palette by xero, as shipped with [Omarchy](https://github.com/omacom/omarchy). Muted earth tones, readable contrast, and quiet interface chrome — built for long writing sessions without visual noise.
+
+The theme maps Obsidian's semantic CSS variables directly, so headings, links, tabs, callouts, code, tables and tags all follow one palette instead of relying on brittle element overrides.
 
 ![Miasma theme screenshot](./screenshots/screenshot.png)
 
@@ -26,19 +28,18 @@ To try it locally before installing, copy `theme.css` into `<your vault>/.obsidi
 | Warm orange | `#b36d43` |
 | Green | `#5f875f` |
 | Terracotta | `#bb7744` |
-| Selection | `#383838` |
+| Selection | `#464a33` |
 
 The accent follows Obsidian's **Accent color** setting, so you can tweak it from **Settings → Appearance** without losing the rest of the theme.
 
 ## Design
 
-- **Readable by default.** Foreground, muted text, links and syntax colors are tuned to stay legible against the Miasma surfaces; no low-contrast decoration.
-- **Quiet hierarchy.** Headings use size, weight and color instead of rules and ornaments. Links are underlined and settle on hover; unresolved links are dotted.
-- **Focused editor.** Subtle active-line tint, clear selection and caret, readable gutters, tidy fold placeholders and tooltips.
-- **Useful chrome.** Accent markers on active tabs and files, hover states across the ribbon and file explorer, clean modals, popovers and slim scrollbars.
-- **Consistent surfaces.** Code blocks, tables, callouts, tags, properties and embeds all use the same small set of radii and borders.
-- **Plugin-friendly.** Sensible styles for Dataview tables and Kanban boards, plus both `--code-*` and legacy `--syntax-*` highlighting, Graph and Canvas colors.
-- **Fast.** No remote fonts, images or network requests. Transitions respect `prefers-reduced-motion`.
+- **Readable by default.** Body text is `#c2c2b0` on `#222222`; muted text and syntax colors stay legible without turning the page into a color sampler.
+- **One clear hierarchy.** Gold is reserved for headings, links and active navigation. Olive marks interaction; status hues only appear in callouts and code.
+- **Variable-first.** Obsidian's own semantic variables drive nearly every surface, including tabs, properties, tag pills, tables and callouts. Fewer overrides means fewer breakages on app updates.
+- **Focused writing.** A 740 px default line length, calm active-line tint, underlined links, dotted unresolved links and small, consistent radii.
+- **Quiet chrome.** Dark tab strip, dock ribbon and status bar frame the note without competing with it. Hover states use the same olive tint as selection.
+- **Fast and offline.** No remote fonts, images or network requests. Motion is minimal and respects `prefers-reduced-motion`.
 
 Only dark mode is supported, matching the original Miasma palette.
 
