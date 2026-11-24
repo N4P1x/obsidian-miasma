@@ -28,6 +28,18 @@ settings:
     max: 1100
     step: 20
     format: px
+  -
+    id: miasma-window-frame
+    title: Framed workspaces
+    description: Stronger Hyprland-style borders and active window accents.
+    type: class-toggle
+    addCommand: true
+  -
+    id: miasma-still
+    title: Disable interface motion
+    description: Turn off Miasma's hover, reveal and focus animations.
+    type: class-toggle
+    addCommand: true
 */
 
 /*
@@ -59,6 +71,7 @@ body {
 
   /* Text */
   --miasma-fg: #c2c2b0;
+  --miasma-fg-soft: #a3a394;
   --miasma-fg-muted: #8a8a7e;
   --miasma-fg-faint: #7f7f74;
   --miasma-fg-on-accent: #12120f;
@@ -102,7 +115,21 @@ body {
   --radius-m: 6px;
   --radius-l: 10px;
   --radius-xl: 14px;
-  --miasma-duration: 140ms;
+
+  /* Motion: derived from the same easing used for Omarchy panel transitions */
+  --miasma-duration-fast: 120ms;
+  --miasma-duration: 180ms;
+  --miasma-duration-slow: 260ms;
+  --miasma-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Borders and focus are structural, not decorative */
+  --miasma-border-soft: color-mix(in srgb, var(--miasma-olive) 28%, transparent);
+  --miasma-focus: color-mix(in srgb, var(--miasma-gold) 70%, transparent);
+
+  /* App-wide motion tokens */
+  --anim-duration-fast: var(--miasma-duration-fast);
+  --anim-duration-moderate: var(--miasma-duration);
+  --anim-motion-smooth: var(--miasma-ease);
 }
 
 /* Semantic mapping -------------------------------------------------------- */
@@ -133,6 +160,24 @@ body.theme-dark {
   --color-purple: #b59a72;
   --color-pink: #c99c7a;
 
+  /* Icons and interactive chrome ---------------------------------------- */
+  --icon-color: var(--miasma-fg-soft);
+  --icon-color-hover: var(--miasma-gold);
+  --icon-color-active: var(--miasma-gold);
+  --icon-color-focus: var(--miasma-gold-bright);
+  --icon-color-focused: var(--miasma-gold-bright);
+  --icon-opacity: 1;
+  --icon-opacity-hover: 1;
+  --icon-opacity-active: 1;
+  --icon-stroke: 1.9px;
+  --clickable-icon-radius: var(--radius-s);
+  --ribbon-width: 48px;
+  --divider-color: var(--miasma-border-strong);
+  --divider-color-hover: var(--miasma-gold);
+  --divider-width: 1px;
+  --divider-width-hover: 2px;
+  --sidebar-tab-container-background: var(--miasma-bg-deep);
+
   /* Surfaces ------------------------------------------------------------ */
   --background-primary: var(--miasma-bg);
   --background-primary-alt: var(--miasma-bg-alt);
@@ -156,8 +201,8 @@ body.theme-dark {
 
   /* Text and interaction ------------------------------------------------ */
   --text-normal: var(--miasma-fg);
-  --text-muted: var(--miasma-fg-muted);
-  --text-faint: var(--miasma-fg-faint);
+  --text-muted: var(--miasma-fg-soft);
+  --text-faint: var(--miasma-fg-muted);
   --text-on-accent: var(--miasma-fg-on-accent);
   --text-on-accent-inverted: var(--miasma-fg);
   --text-accent: var(--miasma-gold);
@@ -263,6 +308,7 @@ body.theme-dark {
   --blockquote-color: var(--miasma-fg);
   --blockquote-background-color: color-mix(in srgb, var(--miasma-olive) 8%, transparent);
   --callout-border-width: 0px;
+  --callout-border-opacity: 0.85;
   --callout-radius: var(--radius-m);
   --callout-title-weight: 600;
   --callout-default: var(--miasma-olive-text);
@@ -280,7 +326,7 @@ body.theme-dark {
   --callout-fail: var(--miasma-red-text);
 
   /* File explorer and docks ---------------------------------------------- */
-  --nav-item-color: var(--miasma-fg-muted);
+  --nav-item-color: var(--miasma-fg-soft);
   --nav-item-color-hover: var(--miasma-fg);
   --nav-item-color-active: var(--miasma-gold);
   --nav-item-color-selected: var(--miasma-gold);
@@ -306,8 +352,21 @@ body.theme-dark {
   --tab-text-color-focused-active-current: var(--miasma-fg);
   --tab-divider-color: var(--miasma-bg-deep);
   --tab-outline-color: var(--miasma-border);
+  --tab-outline-color-hover: var(--miasma-border-strong);
+  --tab-outline-width: 1px;
+  --tab-inner-border-width: 1px;
+  --tab-inner-border-color: transparent;
+  --tab-inner-border-color-hover: var(--miasma-border-soft);
+  --tab-inner-border-color-active: color-mix(in srgb, var(--miasma-gold) 42%, transparent);
   --tab-radius: var(--radius-s);
   --tab-radius-active: var(--radius-s);
+
+  /* Properties frame ---------------------------------------------------- */
+  --metadata-border-width: 1px;
+  --metadata-border-color: var(--miasma-border);
+  --metadata-border-radius: var(--radius-m);
+  --metadata-divider-color: var(--miasma-border);
+  --metadata-divider-color-hover: var(--miasma-olive);
 
   /* Ribbon, status bar, shells ------------------------------------------- */
   --ribbon-background: var(--miasma-bg-deep);
@@ -317,7 +376,7 @@ body.theme-dark {
   --titlebar-text-color: var(--miasma-fg-muted);
   --titlebar-text-color-focused: var(--miasma-fg);
   --status-bar-background: var(--miasma-bg-deep);
-  --status-bar-text-color: var(--miasma-fg-muted);
+  --status-bar-text-color: var(--miasma-fg-soft);
   --status-bar-border-color: var(--miasma-border);
   --status-bar-font-size: 0.85em;
   --modal-background: var(--miasma-bg);
@@ -361,25 +420,274 @@ body.theme-dark {
 
 /* Element rules — only where Obsidian exposes no variable ----------------- */
 
-/* Ribbon items: Obsidian 1.15 uses side-dock-* classes, not .ribbon-action-item */
-.side-dock-ribbon-action {
-  border-radius: var(--radius-s);
-  transition: background-color var(--miasma-duration) ease, color var(--miasma-duration) ease;
+/* Workspace frame: the center pane reads as a window on a dark desktop */
+.workspace-split.mod-root .workspace-leaf {
+  border: 1px solid var(--miasma-border);
+  border-radius: var(--radius-m);
+  background: var(--miasma-bg-alt);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--miasma-fg) 4%, transparent);
 }
 
-.side-dock-ribbon-action:hover {
+.workspace-split.mod-root .workspace-tab-header-container {
+  border-bottom: 1px solid var(--miasma-border-strong);
+}
+
+.workspace-tab-header {
+  position: relative;
+  transition:
+    background-color var(--miasma-duration) var(--miasma-ease),
+    color var(--miasma-duration) var(--miasma-ease),
+    border-color var(--miasma-duration) var(--miasma-ease),
+    transform var(--miasma-duration) var(--miasma-ease);
+}
+
+.workspace-tab-header:hover {
+  transform: translateY(-1px);
+}
+
+.workspace-tab-header.is-active {
+  animation: miasma-tab-in var(--miasma-duration) var(--miasma-ease) both;
+}
+
+/* Ribbon and dock actions: visible icons, clear active state */
+.workspace-ribbon {
+  border-inline-end: 1px solid var(--miasma-border);
+}
+
+.side-dock-ribbon-action,
+.workspace-drawer-vault-actions .clickable-icon {
+  position: relative;
+  color: var(--miasma-fg-soft);
+  border: 1px solid transparent;
+  border-radius: var(--radius-s);
+  opacity: 1;
+  transition:
+    background-color var(--miasma-duration) var(--miasma-ease),
+    border-color var(--miasma-duration) var(--miasma-ease),
+    color var(--miasma-duration) var(--miasma-ease),
+    transform var(--miasma-duration) var(--miasma-ease);
+}
+
+.side-dock-ribbon-action svg,
+.workspace-drawer-vault-actions .clickable-icon svg {
+  opacity: 1;
+  transition: transform var(--miasma-duration-fast) var(--miasma-ease);
+}
+
+.side-dock-ribbon-action:hover,
+.workspace-drawer-vault-actions .clickable-icon:hover {
+  color: var(--miasma-gold);
   background: var(--background-modifier-hover);
+  border-color: var(--miasma-border-soft);
+}
+
+.side-dock-ribbon-action:hover svg,
+.workspace-drawer-vault-actions .clickable-icon:hover svg {
+  transform: scale(1.08);
 }
 
 .side-dock-ribbon-action.is-active {
-  background: color-mix(in srgb, var(--miasma-olive) 18%, transparent);
   color: var(--miasma-gold);
+  background: color-mix(in srgb, var(--miasma-olive) 18%, transparent);
+  border-color: color-mix(in srgb, var(--miasma-gold) 32%, transparent);
+}
+
+.side-dock-ribbon-action.is-active::before {
+  content: "";
+  position: absolute;
+  inset-block: 4px;
+  inset-inline-start: -1px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--miasma-gold);
+  animation: miasma-bar-in var(--miasma-duration) var(--miasma-ease) both;
+}
+
+/* Settings icon: always legible, even at 16px */
+.workspace-drawer-vault-actions .clickable-icon:last-child {
+  background: color-mix(in srgb, var(--miasma-olive) 22%, transparent);
+  border-color: color-mix(in srgb, var(--miasma-gold) 42%, transparent);
+}
+
+.svg-icon.lucide-settings {
+  color: var(--miasma-gold-bright);
+  opacity: 1;
+  stroke-width: 2.1px;
+}
+
+/* Notes: quiet shapes, no decoration for its own sake */
+.markdown-preview-view {
+  animation: miasma-enter var(--miasma-duration-slow) var(--miasma-ease) both;
+}
+
+.markdown-preview-view h1 {
+  padding-bottom: 0.35em;
+  border-bottom: 1px solid var(--miasma-border-soft);
+}
+
+.markdown-preview-view h2 {
+  padding-inline-start: 0.6em;
+  border-inline-start: 2px solid var(--miasma-olive);
+}
+
+/* Interactive content */
+.markdown-preview-view a,
+.markdown-preview-view .internal-link,
+.tag {
+  transition:
+    color var(--miasma-duration-fast) var(--miasma-ease),
+    background-color var(--miasma-duration-fast) var(--miasma-ease),
+    border-color var(--miasma-duration-fast) var(--miasma-ease),
+    transform var(--miasma-duration-fast) var(--miasma-ease);
+}
+
+.markdown-preview-view a:hover,
+.markdown-preview-view .internal-link:hover {
+  text-underline-offset: 4px;
+}
+
+.tag:hover {
+  transform: translateY(-1px);
+}
+
+/* Callouts read as desktop notifications */
+.callout {
+  border-inline-start: 2px solid var(--callout-color, var(--miasma-olive));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--callout-color, var(--miasma-olive)) 14%, transparent);
+  animation: miasma-rise var(--miasma-duration-slow) var(--miasma-ease) both;
+  transition:
+    transform var(--miasma-duration) var(--miasma-ease),
+    box-shadow var(--miasma-duration) var(--miasma-ease);
+}
+
+.callout:hover {
+  transform: translateX(2px);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--callout-color, var(--miasma-olive)) 30%, transparent);
+}
+
+.callout-title {
+  letter-spacing: 0.01em;
+}
+
+/* File tree: small directional motion */
+.nav-file-title,
+.nav-folder-title {
+  position: relative;
+  transition:
+    background-color var(--miasma-duration) var(--miasma-ease),
+    color var(--miasma-duration) var(--miasma-ease),
+    transform var(--miasma-duration) var(--miasma-ease);
+}
+
+.nav-file-title:hover,
+.nav-folder-title:hover {
+  transform: translateX(2px);
+}
+
+.nav-file-title.is-active::before,
+.nav-file-title.is-selected::before {
+  content: "";
+  position: absolute;
+  inset-block: 4px;
+  inset-inline-start: 0;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--miasma-gold);
+}
+
+/* Status bar and overlays */
+.status-bar {
+  border-top: 1px solid var(--miasma-border-strong);
+}
+
+.status-bar-item {
+  transition:
+    background-color var(--miasma-duration) var(--miasma-ease),
+    color var(--miasma-duration) var(--miasma-ease);
+}
+
+.status-bar-item:hover {
+  background: var(--background-modifier-hover);
+  color: var(--miasma-fg);
+}
+
+.modal,
+.popover,
+.menu,
+.suggestion-container {
+  animation: miasma-pop var(--miasma-duration) var(--miasma-ease) both;
+  transform-origin: top center;
+}
+
+:focus-visible {
+  outline: 2px solid var(--miasma-focus);
+  outline-offset: 2px;
 }
 
 /* Active line has no semantic variable */
 /* stylelint-disable-next-line selector-class-pattern -- CodeMirror class name */
 .cm-activeLine {
   background: color-mix(in srgb, var(--miasma-olive) 7%, transparent);
+}
+
+/* Motion primitives ------------------------------------------------------- */
+
+@keyframes miasma-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes miasma-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes miasma-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.98) translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes miasma-tab-in {
+  from {
+    opacity: 0.6;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes miasma-bar-in {
+  from {
+    opacity: 0;
+    transform: scaleY(0.2);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Optional modes ---------------------------------------------------------- */
@@ -389,7 +697,26 @@ body.theme-dark {
 }
 
 .miasma-quiet-sidebar .workspace-sidedock {
-  opacity: 0.82;
+  opacity: 0.88;
+}
+
+.miasma-window-frame .workspace-split.mod-root .workspace-leaf {
+  border-color: color-mix(in srgb, var(--miasma-gold) 28%, var(--miasma-border));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--miasma-olive) 18%, transparent),
+    0 6px 20px rgb(0 0 0 / 24%);
+}
+
+.miasma-window-frame .workspace-tab-header.is-active {
+  box-shadow: inset 0 2px 0 var(--miasma-gold);
+}
+
+.miasma-still {
+  --miasma-duration-fast: 0ms;
+  --miasma-duration: 0ms;
+  --miasma-duration-slow: 0ms;
+  --anim-duration-fast: 0ms;
+  --anim-duration-moderate: 0ms;
 }
 
 .miasma-compact {
@@ -404,7 +731,11 @@ body.theme-dark {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .side-dock-ribbon-action {
-    transition: none;
+  body {
+    --miasma-duration-fast: 0ms;
+    --miasma-duration: 0ms;
+    --miasma-duration-slow: 0ms;
+    --anim-duration-fast: 0ms;
+    --anim-duration-moderate: 0ms;
   }
 }
