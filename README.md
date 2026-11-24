@@ -30,21 +30,26 @@ To try it locally before installing, copy `theme.css` into `<your vault>/.obsidi
 
 The accent follows Obsidian's **Accent color** setting, so you can tweak it from **Settings → Appearance** without losing the rest of the theme.
 
-## What's styled
+## Design
 
-- Full semantic color mapping: surfaces, text, interactive states, borders, form fields
-- Headings, links, blockquotes, horizontal rules, lists and tags
-- Inline code and fenced code blocks, including both `--code-*` and legacy `--syntax-*` highlighting
-- Tables, properties, callouts, embeds and footnotes
-- Ribbon, tabs, sidebars, status bar, modals, popovers and scrollbars
-- Graph view and Canvas colors
-- Reduced-motion support
+- **Two typefaces:** Reading view uses a literary serif stack; editing view stays in a clean sans so writing feels focused
+- **Ornamented headings:** h1 gets a fading olive rule, h2 an underline, h4–h6 small-caps label styling
+- **Dashed gold links** that fill in on hover, unresolved links in terracotta
+- **Blockquotes** with a soft olive wash, decorative quote mark and serif italics
+- **Code blocks** with rounded corners, a soft shadow and a three-dot window header in Reading view
+- **Tables** with uppercase serif headers and an olive underline
+- **Tag pills**, tinted callouts, an ornamented horizontal rule and custom checkboxes
+- **Polished chrome:** active tabs with an accent top line, ribbon items with an accent rail, rounded file-explorer rows, blurred modals and slim olive-tinted scrollbars
+- Subtle hover transitions throughout, with a `prefers-reduced-motion` fallback
+- Extra styling for Dataview tables and Kanban boards
+
+Full semantic color mapping covers surfaces, text, interactive states, borders and form fields, plus both `--code-*` and legacy `--syntax-*` highlighting, Graph and Canvas colors. Everything is local — no remote fonts, images or network calls.
 
 Only dark mode is supported, matching the original Miasma palette.
 
 ## Fonts
 
-System font stacks are used by default, so the theme works fully offline with no remote assets. To change the reading font, add a snippet that overrides `--font-text-theme` (or edit the variable in the `body` rule of `theme.css`).
+Locally available font stacks are used by default, so the theme works fully offline. Override `--miasma-serif`, `--font-text-theme`, `--font-ui-theme` or `--font-monospace-theme` in a snippet to change them.
 
 ## Credits
 
